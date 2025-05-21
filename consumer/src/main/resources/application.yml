@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: consumer  # Application name
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092  # Kafka broker address
+
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # For deserializing message keys (usually strings)
+
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      # This wrapper handles exceptions during deserialization and prevents consumer crashes
+
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        # The actual deserializer being wrapped: JsonDeserializer for JSON input
+
+        spring.json.trusted.packages: "*"
+        # Allows deserialization of classes from any package (use with caution in production)
+
+        spring.json.value.default.type: org.example.consumer.RiderLocation
+        # Tells the deserializer to treat the incoming JSON as a RiderLocation object
+
+
+server:
+  port: 8081 # Server will run on port 8081
