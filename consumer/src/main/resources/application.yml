@@ -2,12 +2,16 @@ spring:
   application:
     name: consumer  # Application name
   cloud:
+    function:
+      definition: processRiderLocation;processRiderStatus
     stream:
       function:
-        definition: processRiderLocation
+        definition: processRiderLocation;processRiderStatus
       bindings:
         processRiderLocation-in-0:
-          destination: my-topic-new
+          destination: my-topic
+        processRiderStatus-in-0:
+          destination: my-new-topic-2
     kafka:
       binders:
         brokers: localhost:9092
